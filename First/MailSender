@@ -1,0 +1,58 @@
+from sys import *
+import time
+import smtplib
+import urllib2
+
+def is_connected():
+	try:
+		urllib2.urlopen('http://216.58.192.142', timeout=1)
+		return True
+	except urllib2.URLError as err:
+		return False
+		
+def Mailsender(gmail_user, gmail_password):
+	sent_from = gmail_user
+	to = ['ranijadhav.siemens@gmail.com']
+	
+	email_text = "First automated mail!"
+	
+	try:
+		server = smtplib.SMTP_SSL('smtp.gmail.com', 465)
+		server.ehlo()
+		server.login(gmail_user, gmail_password)
+		server.sendmail(sent_from, to, email_text)
+		server.close()
+		
+		print("Mail sent Successfully..")
+		
+		
+	except Exception as E:
+		print("Unable to sent", E)
+		
+def main():
+	print("Design and Developed by Rani Jadhav")
+	
+	print("Application Name:  " +argv[0])
+	
+	try:
+		gmail_user = 'ranijadhaventc24@gmail.com'
+		gmail_password = 'Deepali#17'
+		
+		connected = is_connected
+			
+		if connected:
+			startTime = time.time()
+			Mailsender(gmail_user, gmail_password)
+			endTime = time.time()
+			print('Took %s seconds to evaluate.' %(endTime- startTime))
+				 
+		else:
+			print("There is no internet connection")
+				
+	except Exception as E:
+		print("Error : Invalid input", E)
+		
+		
+		
+if __name__ == "__main__":
+	main()
