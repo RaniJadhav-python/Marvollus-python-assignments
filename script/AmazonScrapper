@@ -1,0 +1,45 @@
+import os
+import bs4
+import requests
+from sys import *
+from urllib.requests import urlopen
+
+def URLScrapper(url):
+	connection = urlopen(url)
+	
+	raw_html = connection.read()
+	
+	connection.close()
+	
+	page_soup = bs4.BeautifulSoup(raw_html, "html.parser")
+	
+	container = page_soup.findAll("a", {"class":"a-link-normal a-text-normal"})
+	return container
+	 
+def main():
+	print("Application name: "+argv[0])
+	
+	if(len(argv)==2):
+		if(argv[1]== '-h') or (argv[1]== '-H'):
+			print("This script is used to fetch URL")
+			exit()
+			
+		if(argv[1]== '-u') or (argv[1]== '-U'):
+			print("usage : Application Name")
+			exit()
+	
+	try:
+		url= "https://www.amazon.in/"
+		
+		listout = URLScrapper(url)
+		
+		print("URL from website is ": )
+		for elements in listout:
+			print(elements['href'])
+			print()
+			
+	except Exception as E:
+		print("Error: Invalid input", E)
+		
+if __name__ == "__main__":
+	main()
